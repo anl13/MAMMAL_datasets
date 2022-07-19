@@ -15,20 +15,20 @@ Other related repositories:
 * [pig_pose_det](https://github.com/anl13/pig_pose_det)
 * [PIG_model](https://github.com/anl13/PIG_model) 
 
-# Download 
+## Download 
 BamaPig2D (8.02GB for zipflie. 9.23G after unzip, yet occupy 10.7G space on windows) can be downloaded from [Google Drive](https://drive.google.com/file/d/1yWBtNpYpkUdGKDqUAE7ya5m_fwinn0HN/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1vTwipVuXHNhBFc91tNXteQ) (extract code: vj9n).
 
 BamaPig3D (8.86GB for zipfile. 9.62G after unzip yet occupy 24.9G space on windows because it contains many small files) can be downloaded from [Google Drive](https://drive.google.com/file/d/1TVQSWJl5VvXAGGG7cgFE_gVoziomPxmK/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1KlljO0l8XgOmbrw8AUWj9A) (extract code: l70y).
 
 BamaPig3D_pure_pickle (481M for zipfile, 579M after unzip, yet occupy 941M space on Windows. ). [Google Drive](https://drive.google.com/file/d/1PuJWS2CpUeQxOLw20OKFZQQcqMU-0uyk/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1dizy8tOQTXW1DRIwLnuCig) (extract code: nfm2). This is a concise version containing only labeled images and labels. 
-# Description
+## Description
 
-## BamaPig2D 
+### BamaPig2D 
 When you download `BamaPig2D.zip` and unzip it, you will get two folders: `images` and `annotations`. 
 1. `images`: contains 3340 images used for training. 
 2. `annotation`: contains two files. `train_pig_cocostyle.json` is for training and `eval_pig_cocostyle.json` is used for testing. Both are in COCO style, and you can read them using COCO PythonAPI (see also [pig_pose_det](https://github.com/anl13/pig_pose_det)). Train split contains 3008 images and 10356 instances, while eval split contains 332 images and 1148 instances. 
 ![dataset](pics/keypoint.jpg)
-## BamaPig3D
+### BamaPig3D
 BamaPig3D dataset contains 1750 images with 70 ones annotated. The contents in each folder are described below. The annotations here are mainly `.json` file or `.txt` file which are more friendly to MATALB or C++ users.
 
 1. `image` folder contains uncalibrated synchronized images. It has 10 folders. Each folder contains 1750 images of a single view. The camera names are `0`, `1`, `2`, `5`, `6`, `7`, `8`, `9`, `10`, `11`. Images are in `xxxxxx.jpg` name style. 
@@ -57,10 +57,10 @@ BamaPig3D dataset contains 1750 images with 70 ones annotated. The contents in e
 
 9. `intrinsic_camera_params` contains two pickle file (a binary file format, see [python doc](https://docs.python.org/3/library/pickle.html)). You can also find the intrinsic parameters in `undistortion.py` file. 
 
-## BamaPig3D_pure_pickle
+### BamaPig3D_pure_pickle
 This is a slim version of BamaPig3D, in which we remove `images`, `boxes_pr`, `keypoints_hrnet`, `masks_pr` folders. Only labeled images and labels are reserved. To save space, all label data are in `.pkl` format. `read_2dlabel_to_pickle` function in `visualize_BamaPig3D.py` shows how to encode 2D labels to pickle file. `label_mesh.pkl`, `label_3d.pkl` and `label_mix.pkl` are 70x4x19x3 matrices. `label_pose_params.pkl` is a dict seperating pose parameters to different parts, see information in the dict. 
 
-# Demo code requirements
+## Demo code requirements
 These functions are tested on Python 3.7 with conda virtual environment. The following python packages are necessary to run the codes in `code/` folder. Simply install the newest version. 
 * scipy 
 * numpy 
@@ -81,7 +81,7 @@ pip install tqdm matplotlib pyflann-py3
 ```
 It works for both windows 10 and ubuntu 20.04 (other mainstream windows and ubuntu version may work as well). If the installation of some packages fail, just try to install them again. If always fail, you may need to google the solution. 
 
-# Demo code description
+## Demo code description
 `utils.py` contains some keypoint structure definitions.
 
 `visualize_BamaPig2D.py` tells how to load and visualize 2d labels onto images, and generate Supplementary Fig. 3b and 3d. 
@@ -94,19 +94,19 @@ It works for both windows 10 and ubuntu 20.04 (other mainstream windows and ubun
 
 `undistortion.py` contains the intrinsic calibration parameters
 
-<!-- ### Agreement
+## Agreement
 1. The BamaPig2D and BamaPig3D datasets (the "Datasets") are available for **non-commercial** research purposes only. Any other use, in particular any use for commercial purposes, is prohibited. This includes, without limitation, incorporation in a commercial product, use in a commercial service, as training data for a commercial product, for commercial ergonomic analysis (e.g. product design, architectural design, etc.), or production of other artifacts for commercial purposes including, for example, web services, movies, television programs, mobile applications, or video games. The datasets may not be used for pornographic purposes or to generate pornographic material whether commercial or not. The Datasets may not be reproduced, modified and/or made available in any form to any third party without Tsinghua University’s prior written permission.
 
 2. You agree **not to** reproduce, modified, duplicate, copy, sell, trade, resell or exploit any portion of the images and any portion of derived data in any form to any third party without Tsinghua University’s prior written permission.
 
 3. You agree **not to** further copy, publish or distribute any portion of the Dataset. Except, for internal use at a single site within the same organization it is allowed to make copies of the dataset.
 
-4. Tsinghua University reserves the right to terminate your access to the Dataset at any time. -->
+4. Tsinghua University reserves the right to terminate your access to the Dataset at any time.
 
-# Citation
-If you use this code in your research, please cite the paper
+## Citation
+If you use these datasets in your research, please cite the paper
 
-```
+```BibTex
 @article{MAMMAL, 
     author = {An, Liang and Ren, Jilong and Yu, Tao and Jia, Yichang and Liu, Yebin},
     title = {Three-dimensional surface motion capture of multiple freely moving pigs using MAMMAL},
@@ -116,6 +116,6 @@ If you use this code in your research, please cite the paper
 }
 ```
 
-# Contact
+## Contact
 * Liang An ([anl13@mail.tsinghua.org.cn](anl13@mail.tsinghua.org.cn))
 * Yebin Liu ([liuyebin@mail.tsinghua.edu.cn](liuyebin@mail.tsinghua.edu.cn))
