@@ -1,5 +1,19 @@
 # Datasets proposed by MAMMAL
-This repository presents how to download and use BamaPig2D and BamaPig3D datasets proposed in paper (TODO). 
+This repository presents how to download and use BamaPig2D and BamaPig3D datasets proposed in paper: 
+
+An, L., Ren, J., Yu, T., Hai, T., Jia, Y., &Liu, Y. Three-dimensional surface motion capture of multiple freely moving pigs using MAMMAL. *biorxiv* (2022).
+
+[ [project]() ] [ [paper]() ]
+
+![img](pics/BamaPig2D.jpg)
+
+Other related repositories: 
+* [MAMMAL_core]() 
+* [MAMMAL_evaluation](https://github.com/anl13/MAMMAL_evaluation) 
+* [MAMMAL_behavior](https://github.com/anl13/MAMMAL_behavior) 
+* [pig_silhouette_det](https://github.com/anl13/pig_silhouette_det)
+* [pig_pose_det](https://github.com/anl13/pig_pose_det)
+* [PIG_model](https://github.com/anl13/PIG_model) 
 
 # Download 
 BamaPig2D (8.02GB for zipflie. 9.23G after unzip, yet occupy 10.7G space on windows) can be downloaded from [Google Drive](https://drive.google.com/file/d/1yWBtNpYpkUdGKDqUAE7ya5m_fwinn0HN/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1vTwipVuXHNhBFc91tNXteQ) (extract code: vj9n).
@@ -12,8 +26,8 @@ BamaPig3D_pure_pickle (481M for zipfile, 579M after unzip, yet occupy 941M space
 ## BamaPig2D 
 When you download `BamaPig2D.zip` and unzip it, you will get two folders: `images` and `annotations`. 
 1. `images`: contains 3340 images used for training. 
-2. `annotation`: contains two files. `train_pig_cocostyle.json` is for training and `eval_pig_cocostyle.json` is used for testing. Both are in COCO style, and you can read them using COCO PythonAPI. However, during training and testing, I modified PythonAPI. (TODO) Train split contains 3008 images and 10356 instances, while eval split contains 332 images and 1148 instances. 
-
+2. `annotation`: contains two files. `train_pig_cocostyle.json` is for training and `eval_pig_cocostyle.json` is used for testing. Both are in COCO style, and you can read them using COCO PythonAPI (see also [pig_pose_det](https://github.com/anl13/pig_pose_det)). Train split contains 3008 images and 10356 instances, while eval split contains 332 images and 1148 instances. 
+![dataset](pics/keypoint.jpg)
 ## BamaPig3D
 BamaPig3D dataset contains 1750 images with 70 ones annotated. The contents in each folder are described below. The annotations here are mainly `.json` file or `.txt` file which are more friendly to MATALB or C++ users.
 
@@ -29,23 +43,15 @@ BamaPig3D dataset contains 1750 images with 70 ones annotated. The contents in e
 </img>
 
 3. `label_3d` folder contains 3D keypoints annotation. For pig `i` (`i=0,1,2,3`) and frame `k` (`k=0,25,...,1725`), the 3D keypoint file is `pig_{i}_frame_{k}.txt`. The 3D pig annotation follows the same order to 2D. 
- Each txt file is a `23*3` matrix, with the 18, 20, 22, 23 rows always set zero. Invisible keypoints without 3D labels are set to zero. Therefore, only 19 keypoints are valid which names are defined in the order: 
-<img 
-    style="display: block; 
-           margin-left: auto;
-           margin-right: auto;
-           width: 70%;"
-    src="pics/keypoint.jpg" 
-    alt="">
-</img>
+ Each txt file is a `23*3` matrix, with the 18, 20, 22, 23 rows always set zero. Invisible keypoints without 3D labels are set to zero. Therefore, only 19 keypoints are valid which names are defined in the order. See also BamaPig2D. 
 
-4. `label_mesh` is organized same to `label_3d`. The difference is, its keypoints totally come from the labeled mesh (i.e. the PIG model), whose pose parameters are stored in `label_pose_params`. You can use `bodymodel_np.py` and the PIG model files (see `link to PIG model(TODO)`) to read these pose params and regress the keypoints from pose parameters. 
+4. `label_mesh` is organized same to `label_3d`. The difference is, its keypoints totally come from the labeled mesh (i.e. the PIG model), whose pose parameters are stored in `label_pose_params`. You can use `bodymodel_np.py` and the PIG model files (see [the PIG model](https://github.com/anl13/PIG_model)) to read these pose params and regress the keypoints from pose parameters. 
 
 5. `label_mix` is organized same to `label_3d`. It is the final 3D keypoint labeling combining `label_3d` and `label_mesh`. All the experiments in the paper are performed on this labeling. Please refer to the paper for detailed decription. 
 
-6. `boxes_pr` and `masks_pr` are detection results from `PointRend` (link to it. TODO) using our weights pre-trained on BamaPig2D dataset (link to it). To read and render the bounding boxes and the masks, refer to the code `code/TODO`.
+6. `boxes_pr` and `masks_pr` are detection results from [pig_silhouette_det](https://github.com/anl13/pig_silhouette_det) (a modified [PointRend](https://github.com/facebookresearch/detectron2/tree/main/projects/PointRend)).
 
-7. `keypoints_hrnet` are keypoint detection results from `HRNet` (link to it) using our weights pre-trained on BamaPig2D dataset. Use `code/TODO` to read and render it. Note that, `boxes_pr`, `masks_pr` and `keypoints_hrnet` are the detection results used to generate evaluation results in Fig.2 and the video in Supplementary Video 1 of the paper. You can test other 3D reconstruction methods fairly based on these baseline results, or just use your own detection methods to generate another detection results. 
+7. `keypoints_hrnet` are keypoint detection results from [pig_pose_det](https://github.com/anl13/pig_pose_det) (a modified HRNet) using our weights pre-trained on BamaPig2D dataset. Note that, `boxes_pr`, `masks_pr` and `keypoints_hrnet` are the detection results used to generate evaluation results in Fig.2 and the video in Supplementary Video 1 of the paper. You can test other 3D reconstruction methods fairly based on these baseline results, or just use your own detection methods to generate another detection results. 
 
 8. `extrinsic_camera_params` contains 10 camera extrinsic paramters in `{camid}.txt` file. For example, for `00.txt`, it contains 6 float number, with the first three are camera rotation in axis-angle format, the last three are translation in xyz order. Unit is meter. `marker_3dpositions.txt` contains the 3d positions of 75 scene points for extrinsic camera parameter solving with PnP algorithm (see Supplementary Fig. 1 in the paper). `markerid_for_extrinsic_pnp.ppt` shows how these 75 points correspond to the scene. `markers{camid}.png` shows the projection of 3d scene points (red) and labeled 2d points on the image (green). It indicates how well the extrinsic parameters are solved. 
 
@@ -98,8 +104,18 @@ It works for both windows 10 and ubuntu 20.04 (other mainstream windows and ubun
 4. Tsinghua University reserves the right to terminate your access to the Dataset at any time. -->
 
 # Citation
+If you use this code in your research, please cite the paper
 
+```
+@article{MAMMAL, 
+    author = {An, Liang and Ren, Jilong and Yu, Tao and Jia, Yichang and Liu, Yebin},
+    title = {Three-dimensional surface motion capture of multiple freely moving pigs using MAMMAL},
+    booktitle = {biorxiv},
+    month = {July},
+    year = {2022}
+}
+```
 
 # Contact
-Liang An ([anl13@mail.tsinghua.org.cn](anl13@mail.tsinghua.org.cn))
-Yebin Liu ([liuyebin@mail.tsinghua.edu.cn](liuyebin@mail.tsinghua.edu.cn))
+* Liang An ([anl13@mail.tsinghua.org.cn](anl13@mail.tsinghua.org.cn))
+* Yebin Liu ([liuyebin@mail.tsinghua.edu.cn](liuyebin@mail.tsinghua.edu.cn))
