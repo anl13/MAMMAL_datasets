@@ -1,17 +1,18 @@
 import numpy as np 
-from bodymodel_np import BodyModelNumpy
 
 # This function shows how to use "label_mesh" and "label_3d" annotations to get the 
 # final label_mix gt annotation. 
-# This function will help you to understand Supplementary Fig. 6 in the paper.  
+# This function will help you to understand Supplementary Fig. 8 in the paper. 
+# 
+BamaPig3D_path = "H:/examples/BamaPig3D/" 
 def assemble():
-    folder1 = "label_mesh" 
+    folder1 = BamaPig3D_path + "label_mesh" 
     order1 = [0,1,2,3]
-    folder2 = "label3d" 
+    folder2 = BamaPig3D_path + "label_3d" 
     order2 = [0,1,2,3]
-    folder3 = "label_mix"
+    folder3 = BamaPig3D_path + "label_mix"
 
-    for i in range(70):
+    for i in range(65,66):
         frameid = 25 * i
         all_data1 = np.zeros((4, 23, 3))  
         all_data2 = np.zeros((4, 23, 3))

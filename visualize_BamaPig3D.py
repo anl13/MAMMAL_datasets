@@ -94,7 +94,7 @@ def count_visibility(BamaPig3D_folder):
         part_sum = all_2D_points[:,:,:,k,2].sum(axis=1)
         print("{:10s}".format(g_jointnames[g_all_parts[k]]), (part_sum > 1).sum() / (70 * 4) )
 
-# This function draws Supplementary Fig. 6c in the paper. 
+# This function draws Supplementary Fig. 8c in the paper. 
 def draw_visibility_level(BamaPig3D_folder):
     if not os.path.exists(BamaPig3D_folder + "/label_keypoints2d.pkl"): 
         print("Please run read_2dlabel_to_pickle() function to generate label_keypoints2d.pkl")
@@ -145,10 +145,10 @@ def draw_visibility_level(BamaPig3D_folder):
     ax.xaxis.set_tick_params(width=0.5)
     ax.yaxis.set_tick_params(width=0.5)
 
-    plt.savefig("output/supp_fig_6c.png", dpi=1000, bbox_inches='tight', pad_inches=0)
-    # plt.savefig("output/supp_fig_6c.svg", dpi=1000, bbox_inches='tight', pad_inches=0)
+    plt.savefig("output/supp_fig_8c.png", dpi=1000, bbox_inches='tight', pad_inches=0)
+    # plt.savefig("output/supp_fig_8c.svg", dpi=1000, bbox_inches='tight', pad_inches=0)
 
-# This function draws Supplementary Fig. 6d in the paper. 
+# This function draws Supplementary Fig. 8d in the paper. 
 def draw_keypoint_visibility_hist(BamaPig3D_folder): 
     jointnames = [g_jointnames[k] for k in g_all_parts]
     if not os.path.exists(BamaPig3D_folder + "/label_keypoints2d.pkl"): 
@@ -198,8 +198,8 @@ def draw_keypoint_visibility_hist(BamaPig3D_folder):
     plt.ylabel("Percentage of Visible Keypoints (%)", fontsize=7)
     plt.ylim(0,1)
 
-    plt.savefig("output/supp_fig_6d.png", dpi=1000, bbox_inches='tight', pad_inches=0.01)
-    # plt.savefig("output/supp_fig_6d.svg", dpi=1000, bbox_inches='tight', pad_inches=0.01)
+    plt.savefig("output/supp_fig_8d.png", dpi=1000, bbox_inches='tight', pad_inches=0.01)
+    # plt.savefig("output/supp_fig_8d.svg", dpi=1000, bbox_inches='tight', pad_inches=0.01)
 
 # demo for how to load and draw silhouettes used in BamaPig3D dataset. 
 def demo_draw_mask(BamaPig3D_folder):
@@ -253,10 +253,10 @@ if __name__ == "__main__":
     BamaPig3D_folder = "H:/examples/BamaPig3D/"
     # count_visibility(BamaPig3D_folder) 
 
-    # output supp_fig_6c.png
+    # output supp_fig_8c.png
     draw_visibility_level(BamaPig3D_folder)
 
-    # output supp_fig_6d.png
+    # output supp_fig_8d.png
     draw_keypoint_visibility_hist(BamaPig3D_folder)
 
     # demo for how to load and draw sihouettes 

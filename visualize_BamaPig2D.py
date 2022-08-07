@@ -60,7 +60,7 @@ def draw_box(img, box, colorid):
 
 
 # This function is used to reproduce BamaPig2D visualization results in the 
-# Supplementary Fig. 3b of the paper. 
+# Supplementary Fig. 4b of the paper. 
 def visualize_BamaPig2D(datafolder, output_folder,image_ids_to_rend=[0]): 
     with open(datafolder + "/annotations/eval_pig_cocostyle.json", 'r') as f: 
         annos_eval = json.load(f) 
@@ -131,15 +131,15 @@ def draw_vis_2D(BamaPig2D_folder):
     ax.xaxis.set_tick_params(width=0.5)
     ax.yaxis.set_tick_params(width=0.5)
 
-    plt.savefig("output/supp_fig_3d.png", dpi=1000, bbox_inches='tight', pad_inches=0)
-    # plt.savefig("output/supp_fig_3d.svg", dpi=1000, bbox_inches='tight', pad_inches=0) # uncomment this line to generate vector image file.
+    plt.savefig("output/supp_fig_4d.png", dpi=1000, bbox_inches='tight', pad_inches=0)
+    # plt.savefig("output/supp_fig_4d.svg", dpi=1000, bbox_inches='tight', pad_inches=0) # uncomment this line to generate vector image file.
 
 
 if __name__ == "__main__": 
     # You may change the BamaPig2D_folder to your own path of BamaPig2D
     BamaPig2D_folder = "H:/examples/BamaPig2D/"
 
-    # [0,100,1000,2000,3000,3009,3100,3300] These images are used for generating Supplementary Fig. 3b. 
+    # [0,100,1000,2000,3000,3009,3100,3300] These images are used for generating Supplementary Fig. 4b. 
     visualize_BamaPig2D(BamaPig2D_folder, "output", [0,100,1000,2000,3000,3009,3100,3300])
 
     draw_vis_2D(BamaPig2D_folder)
