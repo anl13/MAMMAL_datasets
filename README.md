@@ -6,7 +6,7 @@ This repository presents how to download and use BamaPig2D and BamaPig3D dataset
 ## Download 
 BamaPig2D (8.02GB for zipflie. 9.23G after unzip, yet occupy 10.7G space on windows) can be downloaded from [Google Drive](https://drive.google.com/file/d/1yWBtNpYpkUdGKDqUAE7ya5m_fwinn0HN/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1vTwipVuXHNhBFc91tNXteQ) (extract code: vj9n).
 
-BamaPig3D (8.86GB for zipfile. 9.62G after unzip yet occupy 24.9G space on windows because it contains many small files) can be downloaded from [Google Drive]() or [Baidu Drive]() (extract code: ).
+BamaPig3D (8.86GB for zipfile. 9.62G after unzip yet occupy 24.9G space on windows because it contains many small files) can be downloaded from [Google Drive](https://drive.google.com/file/d/1rZtuR9B9ojxQKkps0j5duwAJ-v3iM1k7/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1tOgf5icIt0GKI4zpV_TE4Q) (extract code: z8u6).
 
 BamaPig3D_pure_pickle (481M for zipfile, 579M after unzip, yet occupy 941M space on Windows. ). [Google Drive](https://drive.google.com/file/d/17-jiZh4D8cYUNkzsZMSfjLL_5gyr-3i_/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1ZrAdLHwDDm1ZWqUpz94P7Q) (extract code: jams). This is a concise version containing only labeled images and labels. 
 ## Description
