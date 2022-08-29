@@ -15,33 +15,6 @@ return:
   result: [w*h, 5], nearest neighbor indices 
   dists : [w*h, 5], nearest neighbor distances 
 '''
-def nn_search(mapx, mapy, calib_folder): 
-    # build dataset 
-    h = mapx.shape[0] 
-    w = mapx.shape[1]
-    dataset = np.zeros((w*h, 2))
-    dataset[:,0] = mapx.reshape((w*h,1)).squeeze() 
-    dataset[:,1] = mapy.reshape((w*h,1)).squeeze()  # index = hi * w + wi
-    # build kd-tree
-    from pyflann import FLANN
-    flann = FLANN() 
-    params = flann.build_index(dataset, algorithm='kdtree', trees=4)
-    testset = np.zeros((w*h,2)) 
-    for i in range(h):
-        for j in range(w):
-            testset[w*i+j,:] = np.array([j,i]) 
-    print('created matrix')
-    # query nearest neighbours
-    start = time() 
-    result, dists = flann.nn_index(testset, 5, checks = params['checks'])
-    end = time() 
-    print("elapsed {} s".format(end-start))
-    data = {} 
-    data['result'] = result
-    data['dists'] = dists
-    with open(calib_folder + '/inverse_map_dict.pkl', 'wb') as f: 
-        pickle.dump(data, f, protocol=2)
-    return result, dists
 
 def inverse_dist_weighting(xs, ds): 
     assert(xs.shape == ds.shape)
@@ -128,38 +101,6 @@ def undist_image_demo(img, calib_folder):
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(K, coeff, (w,h), 1, (w,h))
     mapx, mapy = cv2.initUndistortRectifyMap(K, coeff, None, newcameramtx, (w,h), 5)
 
-    '''
-    compute nearest neighbours for inverse mapping
-    '''
-    if not os.path.exists(calib_folder + "/inverse_map_dict.pkl"): 
-        nn_search(mapx, mapy, calib_folder) 
-
-    '''
-    compute and save inverse distortion mapping
-    '''
-    if os.path.exists(calib_folder + '/distortion_info.pkl'):
-        with open(calib_folder + '/distortion_info.pkl','rb') as f: 
-            calib_info = pickle.load(f) 
-        inv_mapx = calib_info['inv_mapx']
-        inv_mapy = calib_info['inv_mapy']
-    else: 
-        with open(calib_folder + '/inverse_map_dict.pkl', 'rb') as f: 
-            data = pickle.load(f) 
-        result = data['result']
-        dists = data['dists']
-        inv_mapx, inv_mapy = get_inverse_remap(result, dists, w, h) 
-        calib_info = {}
-        calib_info['K'] = K 
-        calib_info['coeff'] = coeff 
-        calib_info['type'] = 1
-        calib_info['mapx'] = mapx
-        calib_info['mapy'] = mapy 
-        calib_info['inv_mapx'] = inv_mapx 
-        calib_info['inv_mapy'] = inv_mapy 
-        calib_info['newcameramtx'] = newcameramtx
-        with open(calib_folder + '/distortion_info.pkl', 'wb') as f: 
-            pickle.dump(calib_info, f) 
-
     if not os.path.exists("output"): 
         os.makedirs("output")
     '''
@@ -173,12 +114,7 @@ def undist_image_demo(img, calib_folder):
     '''
     undist = cv2.remap(img, mapx, mapy, cv2.INTER_LINEAR, borderValue=(255,255,255))
     cv2.imwrite("output/intrinsic_calib_demo.png", undist)
-    '''
-    test inverse mapping
-    '''
-    redist = cv2.remap(undist, inv_mapx,inv_mapy, cv2.INTER_LINEAR)
-    cv2.imwrite("output/intrinsic_calib_demo_inverse.png", redist)
-    
+
 if __name__ == "__main__":
     # Change BamaPig3D_folder to your own BamaPig3D path. 
     BamaPig3D_folder = "H:/examples/BamaPig3D/"

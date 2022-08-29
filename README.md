@@ -1,10 +1,12 @@
 # Datasets proposed by MAMMAL
-This repository presents how to download and use BamaPig2D and BamaPig3D datasets.
+This repository presents how to download and use BamaPig2D and BamaPig3D datasets proposed by [MAMMAL](https://github.com/anl13/MAMMAL_core) system. 
 
 ![img](pics/BamaPig2D.jpg)
 
 ## Download 
 BamaPig2D (8.02GB for zipflie. 9.23G after unzip, yet occupy 10.7G space on windows) can be downloaded from [Google Drive](https://drive.google.com/file/d/1yWBtNpYpkUdGKDqUAE7ya5m_fwinn0HN/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1vTwipVuXHNhBFc91tNXteQ) (extract code: vj9n).
+
+BamaPig2D_sleap (33.7M, only contains `.json` files) can be downloaded from [Google Drive](https://drive.google.com/file/d/1XRFvUM8iBtzkIzr83rMkpQ4NonTKY9dk/view?usp=sharing) or [Baidu Yun](https://pan.baidu.com/s/1PC_n9_nqRsduw5JYuyTOVA) (extract code: qtb9). 
 
 BamaPig3D (8.86GB for zipfile. 9.62G after unzip yet occupy 24.9G space on windows because it contains many small files) can be downloaded from [Google Drive](https://drive.google.com/file/d/1rZtuR9B9ojxQKkps0j5duwAJ-v3iM1k7/view?usp=sharing) or [Baidu Drive](https://pan.baidu.com/s/1tOgf5icIt0GKI4zpV_TE4Q) (extract code: z8u6).
 
@@ -82,21 +84,25 @@ It works for both windows 10 and ubuntu 20.04 (other mainstream windows and ubun
 
 `undistortion.py` contains the intrinsic calibration parameters
 
-## Agreement
-1. The BamaPig2D and BamaPig3D datasets (the "Datasets") are available for **non-commercial** research purposes only. Any other use, in particular any use for commercial purposes, is prohibited. This includes, without limitation, incorporation in a commercial product, use in a commercial service, as training data for a commercial product, for commercial ergonomic analysis (e.g. product design, architectural design, etc.), or production of other artifacts for commercial purposes including, for example, web services, movies, television programs, mobile applications, or video games. The datasets may not be used for pornographic purposes or to generate pornographic material whether commercial or not. The Datasets may not be reproduced, modified and/or made available in any form to any third party without Tsinghua University’s prior written permission.
+## Train SLEAP using BamaPig2D 
+[SLEAP](https://sleap.ai/) and [DeepLabCut](https://github.innominds.com/DeepLabCut) are the most popular multiple-animal pose estimation methods. Here, we provide an instruction on how to use BamaPig2D dataset to train SLEAP. Note that, we train SLEAP instead of DeepLabCut because only SLEAP supports COCO style dataset currently. 
 
-2. You agree **not to** reproduce, modified, duplicate, copy, sell, trade, resell or exploit any portion of the images and any portion of derived data in any form to any third party without Tsinghua University’s prior written permission.
+1. Install SLEAP v1.2.6 following their official instructions. 
+2. Download `BamaPig2D_sleap.zip`, unzip it, and you will get `train_pig_cocostyle_sleap.json`, `eval_pig_cocostyle_sleap.json` and `full_pig_cocostyle_sleap.json` files. We recommend to train SLEAP using `train_pig_cocostyle_sleap.json` or `full_pig_cocostyle_sleap.json`. Let's take `train_pig_cocostyle_sleap.json` as example. Put it under `{BamaPig2D_path}/images/` folder first. We put it under `images` instead of `annotations` folder because SLEAP load images from the folder where `.json` file lives. 
+3. After preparing the data, open SLEAP software, click `File->Import->COCO dataset`, wait for about half a minute before SLEAP load all the images. 
+4. Click `Predict->Run training` to open the training setting panel. 
+5. We recommend to use "top-down" structure. Set `Sigma for Centroids` as 8.00 and `Sigma for Nodes` as 4.00. Choose `unet` as model backbone, set `Max Stride` as 64. 
+6. Click `Run` to start the training process. It may take half a day to finish the training. 
 
-3. You agree **not to** further copy, publish or distribute any portion of the Dataset. Except, for internal use at a single site within the same organization it is allowed to make copies of the dataset.
+ATTENTION! Because BamaPig2D dataset contains 3003 images for training (3340 for full dataset), SLEAP requires at least 17.6GB GPU memory to train the top-down model. Therefore, I trained SLEAP using a single NVIDIA RTX 3090Ti GPU which has 24GB memory. If you could not access such a high-end GPU, you could remove some annotation samples from the json file. For example, for NVIDIA RTX 2080Ti (11GB), you may reduce the training images to 1000. 
 
-4. Tsinghua University reserves the right to terminate your access to the Dataset at any time.
 
 ## Citation
 If you use these datasets in your research, please cite the paper
 
 ```BibTex
 @article{MAMMAL, 
-    author = {},
+    author = {An, Liang and Ren, Jilong and Yu, Tao and Hai, Tang and Jia, Yichang and Liu, Yebin},
     title = {Three-dimensional surface motion capture of multiple freely moving pigs using MAMMAL},
     booktitle = {},
     month = {July},
